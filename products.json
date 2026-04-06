@@ -1,0 +1,10 @@
+[
+  {
+    "name": "butter",
+    "price": 100.0,
+    "supplier_cost": 56.0,
+    "unit": "packet",
+    "owner": "admin",
+    "created_at": "2026-04-07"
+  }
+]
