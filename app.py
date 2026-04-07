@@ -14,10 +14,10 @@ app = FastAPI(title="Demand Forecasting API")
 # CORS MUST be added immediately after app creation, before any routes
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
+    allow_origins=["*"],  # for development
+    allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
-    allow_credentials=True,
 )
 
 # ── Model loading ────────────────────────────────────────────
@@ -145,32 +145,53 @@ def delete_product(product_name: str, username: str = Depends(get_current_user))
 
 @app.post("/log-sale")
 def log_sale(entry: SaleEntry, username: str = Depends(get_current_user)):
-    products     = load_products()
-    user_products = [p for p in products if p["owner"] == username]
-    product      = next((p for p in user_products if p["name"] == entry.product_name), None)
+    try:
+        products = load_products()
 
-    if not product:
-        raise HTTPException(
-            status_code=404,
-            detail=f"Product '{entry.product_name}' not found. Add it in the Products tab first."
+        # ✅ SAFE access
+        user_products = [p for p in products if p.get("owner") == username]
+
+        product = next(
+            (p for p in user_products if p.get("name") == entry.product_name),
+            None
         )
 
-    sales = load_sales()
-    record = {
-        "owner":         username,
-        "product_name":  entry.product_name,
-        "quantity_sold": entry.quantity_sold,
-        "stock_level":   entry.stock_level,
-        "stock_added":   entry.stock_added or 0.0,
-        "price":         product["price"],
-        "supplier_cost": product["supplier_cost"],
-        "date":          entry.date or datetime.today().strftime("%Y-%m-%d")
-    }
-    sales.append(record)
-    save_sales(sales)
+        if not product:
+            raise HTTPException(
+                status_code=404,
+                detail=f"Product '{entry.product_name}' not found. Add it in the Products tab first."
+            )
 
-    count = len([s for s in sales if s["owner"] == username and s["product_name"] == entry.product_name])
-    return {"status": "logged", "entries_for_product": count}
+        sales = load_sales()
+
+        record = {
+            "owner": username,
+            "product_name": entry.product_name,
+            "quantity_sold": entry.quantity_sold,
+            "stock_level": entry.stock_level,
+            "stock_added": entry.stock_added or 0.0,
+            "price": product.get("price", 0),
+            "supplier_cost": product.get("supplier_cost", 0),
+            "date": entry.date or datetime.today().strftime("%Y-%m-%d")
+        }
+
+        sales.append(record)
+        save_sales(sales)
+
+        # ✅ SAFE access here too
+        count = len([
+            s for s in sales
+            if s.get("owner") == username and s.get("product_name") == entry.product_name
+        ])
+
+        return {
+            "status": "logged",
+            "entries_for_product": count
+        }
+
+    except Exception as e:
+        print("LOG-SALE ERROR:", e)
+        return {"error": str(e)}
 
 # ════════════════════════════════════════════════════════════
 # DASHBOARD
@@ -179,7 +200,10 @@ def log_sale(entry: SaleEntry, username: str = Depends(get_current_user)):
 @app.get("/dashboard")
 def dashboard(product_name: str, username: str = Depends(get_current_user)):
     sales         = load_sales()
-    product_sales = [s for s in sales if s["owner"] == username and s["product_name"] == product_name]
+    product_sales = [
+        s for s in sales
+        if s.get("owner") == username and s.get("product_name") == product_name
+        ]
 
     if len(product_sales) < 2:
         return {

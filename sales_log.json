@@ -82,5 +82,85 @@
     "price": 100.0,
     "supplier_cost": 56.0,
     "date": "2026-04-07"
+  },
+  {
+    "owner": "admin",
+    "product_name": "butter",
+    "quantity_sold": 120.0,
+    "stock_level": 50.0,
+    "stock_added": 100.0,
+    "price": 100.0,
+    "supplier_cost": 56.0,
+    "date": "2026-04-07"
+  },
+  {
+    "owner": "admin",
+    "product_name": "chips",
+    "quantity_sold": 15.0,
+    "stock_level": 20.0,
+    "stock_added": 50.0,
+    "price": 20.0,
+    "supplier_cost": 10.0,
+    "date": "2026-04-07"
+  },
+  {
+    "owner": "admin",
+    "product_name": "chips",
+    "quantity_sold": 15.0,
+    "stock_level": 20.0,
+    "stock_added": 50.0,
+    "price": 20.0,
+    "supplier_cost": 10.0,
+    "date": "2026-04-07"
+  },
+  {
+    "owner": "admin",
+    "product_name": "chips",
+    "quantity_sold": 10.0,
+    "stock_level": 25.0,
+    "stock_added": 55.0,
+    "price": 20.0,
+    "supplier_cost": 10.0,
+    "date": "2026-04-07"
+  },
+  {
+    "owner": "admin",
+    "product_name": "chips",
+    "quantity_sold": 55.0,
+    "stock_level": 55.0,
+    "stock_added": 55.0,
+    "price": 20.0,
+    "supplier_cost": 10.0,
+    "date": "2026-04-07"
+  },
+  {
+    "owner": "admin",
+    "product_name": "chips",
+    "quantity_sold": 44.0,
+    "stock_level": 44.0,
+    "stock_added": 44.0,
+    "price": 20.0,
+    "supplier_cost": 10.0,
+    "date": "2026-04-07"
+  },
+  {
+    "owner": "admin",
+    "product_name": "chips",
+    "quantity_sold": 15.0,
+    "stock_level": 55.0,
+    "stock_added": 5.0,
+    "price": 20.0,
+    "supplier_cost": 10.0,
+    "date": "2026-04-07"
+  },
+  {
+    "owner": "admin",
+    "product_name": "chips",
+    "quantity_sold": 55.0,
+    "stock_level": 10.0,
+    "stock_added": 0.0,
+    "price": 20.0,
+    "supplier_cost": 10.0,
+    "date": "2026-04-07"
   }
 ]
