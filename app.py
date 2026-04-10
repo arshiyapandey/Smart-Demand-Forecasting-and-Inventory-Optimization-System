@@ -17,7 +17,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:3000",
-        "https://your-app-name.vercel.app"   # replace after Vercel deploy
+        "https://smart-demand-forecasting-and-invent.vercel.app/"   
     ],
     allow_methods=["*"],
     allow_headers=["*"],
