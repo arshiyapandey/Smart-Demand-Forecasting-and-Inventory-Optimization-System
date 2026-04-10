@@ -1,43 +1,115 @@
-# Smart-Demand-Forecasting-and-Inventory-Optimization-System
+#  Smart Demand Forecasting & Inventory Optimization System
 
-## Overview
-This project is an AI-driven system designed for small businesses to forecast demand and optimize inventory using machine learning and data analytics. It helps reduce stockouts, prevent overstocking, and minimize errors caused by manual decision-making.
+🔗 **Live Demo:** https://smart-demand-forecasting-and-invent.vercel.app/
 
-This project has been developed as a collaborative group project, focusing on building a practical and scalable solution for real-world business scenarios.
+---
 
-## Key Features
-- Demand forecasting using XGBoost  
-- Inventory optimization including Reorder Point (ROP), Safety Stock, and Order Quantity  
-- Smart alerts for low stock levels and demand spikes  
-- Stockout risk prediction  
-- Trend comparison between historical and predicted demand  
-- Cost optimization insights  
-- Multi-product dashboard  
-- Basic user authentication system  
+##  Overview
 
-## Tech Stack
-- Python  
-- Pandas  
-- Scikit-learn  
-- XGBoost  
-- Flask / FastAPI  
+The **Smart Demand Forecasting & Inventory Optimization System** is an AI-driven solution designed to help small businesses make **data-driven inventory decisions**.
+
+By leveraging **machine learning and analytics**, the system predicts future demand, optimizes stock levels, and reduces inefficiencies caused by manual inventory management. It enables businesses to **minimize stockouts, avoid overstocking, and improve operational efficiency**.
+
+This project was developed as a collaborative effort, focusing on building a **scalable and practical solution for real-world business scenarios**.
+
+---
+
+##  Key Features
+
+-  **Demand Forecasting**  
+  Predicts future product demand using **XGBoost**
+
+-  **Inventory Optimization**  
+  Calculates **Reorder Point (ROP), Safety Stock, and Order Quantity**
+
+-  **Smart Alert System**  
+  Alerts for low stock, demand spikes, and anomalies  
+
+-  **Stockout Risk Prediction**  
+  Estimates the probability of inventory shortages  
+
+-  **Trend Analysis**  
+  Compares historical vs predicted demand patterns  
+
+-  **Cost Optimization Insights**  
+  Suggests strategies to improve profitability  
+
+-  **Multi-Product Dashboard**  
+  Interactive visualization of key business metrics  
+
+-  **User Authentication**  
+  Basic login system for secure access  
+
+---
+
+##  Tech Stack
+
+**Frontend:**  
 - React.js  
+
+**Backend:**  
+- Flask / FastAPI  
+
+**Machine Learning:**  
+- XGBoost  
+- Scikit-learn  
+
+**Data Processing:**  
+- Pandas, NumPy  
+
+**Database:**  
 - SQLite / PostgreSQL  
 
-## Dataset
-The system is built and evaluated using an FMCG (Fast-Moving Consumer Goods) dataset sourced from Kaggle. This dataset enables realistic demand pattern analysis and supports the development of practical, data-driven inventory strategies.
+**Visualization:**  
+- Chart.js / Matplotlib / Seaborn  
 
-## Workflow
-User Input → Data Processing → Demand Forecasting → Inventory Optimization → Insights and Dashboard  
+---
 
-## Outputs
+##  Dataset
+
+- FMCG (Fast-Moving Consumer Goods) dataset sourced from Kaggle  
+- Enables realistic demand forecasting and inventory optimization scenarios  
+
+---
+
+---
+
+##  System Workflow
+
+User Input → Data Processing → Demand Forecasting → Inventory Optimization → Dashboard & Insights  
+
+---
+
+##  Outputs
+
 - Demand forecasts  
-- Inventory recommendations  
-- Alerts and actionable insights  
-- Interactive visual dashboards  
+- Inventory recommendations (ROP, Safety Stock, Order Quantity)  
+- Smart alerts and notifications  
+- Interactive dashboards and visual insights  
 
-## Project Status
-The project is currently in an advanced prototype stage, with core modules such as data preprocessing, demand forecasting and inventory optimization successfully implemented and tested on real-world FMCG data. Ongoing work includes strengthening system integration, making interactive dashboard and developing a fully interactive user interface for end users.
+---
 
-## Goal
-The goal of this project is to develop a scalable, user-friendly, AI-powered inventory management system suitable for real-world small business applications.
+##  Impact
+
+- Reduces stock-related losses  
+- Improves demand prediction accuracy  
+- Enables data-driven decision-making  
+- Enhances operational efficiency for small businesses  
+
+---
+
+##  Team
+
+- Archita Jain  
+- Arshiya Pandey  
+- Divyanshi Sethia  
+- Shruti Wadnerkar  
+
+
+---
+
+##  License
+
+This project is licensed under the MIT License.
+
+---
