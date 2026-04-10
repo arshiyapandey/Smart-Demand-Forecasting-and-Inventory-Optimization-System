@@ -12,16 +12,15 @@ import joblib, pandas as pd, numpy as np, io
 app = FastAPI(title="Demand Forecasting API")
 
 # CORS MUST be added immediately after app creation, before any routes
-# In app.py, update the allow_origins line:
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:3000",
-        "https://your-app-name.vercel.app"   # replace after Vercel deploy
+        "https://smart-demand-forecasting-and-invent.vercel.app"  
     ],
+    allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
-    allow_credentials=True,
 )
 
 # ── Model loading ────────────────────────────────────────────
@@ -84,6 +83,14 @@ class OptimizeInput(BaseModel):
     avg_demand: float
     std_demand: float
     lead_time:  int = 5
+    
+# ═════════════════════════════════════════════════════════════
+# Backuop route to handle preflight CORS requests from frontend
+# ═════════════════════════════════════════════════════════════
+
+@app.options("/{rest_of_path:path}")
+def preflight_handler(rest_of_path: str):
+    return {"message": "OK"}
 
 # ════════════════════════════════════════════════════════════
 # AUTH
@@ -114,34 +121,78 @@ def get_products(username: str = Depends(get_current_user)):
     products = load_products()
     return [p for p in products if p.get("owner") == username]
 
+
 @app.post("/products")
 def add_product(product: ProductInput, username: str = Depends(get_current_user)):
     products = load_products()
-    existing = [p for p in products if p["owner"] == username and p["name"] == product.name]
+
+    # ✅ SAFE access
+    existing = [
+        p for p in products
+        if p.get("owner") == username and p.get("name") == product.name
+    ]
+
     if existing:
         raise HTTPException(status_code=400, detail=f"Product '{product.name}' already exists.")
-    # Use model_dump() — works for both Pydantic v1 and v2
+
     try:
         record = product.model_dump()
     except AttributeError:
         record = product.dict()
-    record["owner"]      = username
+
+    record["owner"] = username
     record["created_at"] = datetime.today().strftime("%Y-%m-%d")
+
     products.append(record)
     save_products(products)
+
     return {"status": "added", "product": record}
+
 
 @app.delete("/products/{product_name}")
 def delete_product(product_name: str, username: str = Depends(get_current_user)):
-    products = load_products()
-    updated  = [p for p in products if not (p["owner"] == username and p["name"] == product_name)]
-    if len(updated) == len(products):
-        raise HTTPException(status_code=404, detail="Product not found.")
-    save_products(updated)
-    sales = load_sales()
-    sales = [s for s in sales if not (s["owner"] == username and s["product_name"] == product_name)]
-    save_sales(sales)
-    return {"status": "deleted", "product": product_name}
+    try:
+        product_name = product_name.strip().lower()
+
+        products = load_products()
+
+        updated = []
+        found = False
+
+        for p in products:
+            p_name = (p.get("name") or "").strip().lower()
+            p_owner = p.get("owner")
+
+            if p_owner == username and p_name == product_name:
+                found = True
+                continue
+
+            updated.append(p)
+
+        if not found:
+            raise HTTPException(status_code=404, detail="Product not found.")
+
+        save_products(updated)
+
+        sales = load_sales()
+        updated_sales = []
+
+        for s in sales:
+            s_name = (s.get("product_name") or "").strip().lower()
+            s_owner = s.get("owner")
+
+            if s_owner == username and s_name == product_name:
+                continue
+
+            updated_sales.append(s)
+
+        save_sales(updated_sales)
+
+        return {"status": "deleted", "product": product_name}
+
+    except Exception as e:
+        print("DELETE ERROR:", e)
+        raise HTTPException(status_code=500, detail=str(e))
 
 # ════════════════════════════════════════════════════════════
 # DAILY SALES ENTRY
